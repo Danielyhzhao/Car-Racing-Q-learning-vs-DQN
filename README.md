@@ -1,5 +1,3 @@
-# Car-Racing-Q-learning-vs-DQN
-
 # Multi-Agent Racing Simulation with Q-Learning and DQN
 
 This project simulates a two-car racing game using both Q-Learning and Deep Q-Network (DQN) agents. It implements a dynamic racing environment with a changing road profile, along with reinforcement learning algorithms to drive two competing cars. The simulation is rendered in real time using Pygame, and training progress is visualized with Matplotlib.
