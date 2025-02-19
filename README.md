@@ -36,58 +36,53 @@ This project simulates a two-car racing game using both Q-Learning and Deep Q-Ne
 
 The road center is computed based on the vehicle’s \( y \)-coordinate (`world_y`) using a segmented approach. For example:
 
-- For world_y > 5000 :  
-   base = 8
+- For world_y > 5000 :
+
+      base = 8
 
 - For 4000 < word_y <= 5000:  
 
+      base = 8 + (5000 - world_y)/1000 X 4
 
-- For \( 3000 < \text{world\_y} \leq 4000 \):
-  \[
-  \text{base} = 12 - \frac{4000 - \text{world\_y}}{1000} \times 4
-  \]
+
+- For 3000 < world_y <= 4000:
+
+      base = 12 - (4000 - world_y)/1000 X 4
+
 
 A periodic fluctuation is then added:
-\[
-\text{irregular} = 
-\begin{cases}
-0, & \text{if } \text{world\_y} > 5500 \\
-0.8 \sin\left(\frac{\text{world\_y}}{100}\right) + 0.5 \cos\left(\frac{\text{world\_y}}{50}\right), & \text{otherwise}
-\end{cases}
-\]
+  
+    irregular = 0
+ 
+    irregular = 0.8sin(world_y/100) + 0.5cos(world_y/50), if world_y > 5500 otherwise
+
 
 Thus, the overall road center value becomes:
-\[
-\text{road\_center\_value} = \text{base} + \text{irregular}
-\]
+  
+    road_center_value = base + irregular
 
 This value is mapped to pixel space where the offset is computed as:
-\[
-\text{offset} = \left( \text{road\_center\_value} \times \text{CELL\_SIZE} + \frac{\text{CELL\_SIZE}}{2} \right) - \text{TRACK\_CENTER}
-\]
+
+    offset = (road_center_value X CELL_SIZE + CELL_SIZE/2) - TRACK_CENTER
 
 ### Q-Learning Update
 
 The Q-Learning agent updates its Q-table according to the rule:
 
-\[
-Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]
-\]
+    Q(s,a)←Q(s,a)+α[r+γmaxQ(s',a') - Q(s,a)]
 
 where:
-- \( \alpha \) is the learning rate.
-- \( \gamma \) is the discount factor.
-- \( r \) is the immediate reward.
-- \( s \) and \( s' \) are the current and next states.
-- \( a \) and \( a' \) represent the selected and best next action respectively.
+- α is the learning rate.
+- γ is the discount factor.
+- r is the immediate reward.
+- s and s' are the current and next states.
+- a and a' represent the selected and best next action respectively.
 
 ### DQN Loss Function
 
 The DQN agent is trained by minimizing the Mean Squared Error (MSE) loss between the predicted Q-values and the target Q-values computed as:
 
-\[
-\text{loss} = \text{MSE}\Big(Q(s, a), \; r + \gamma \max_{a'} Q_{\text{target}}(s', a')\Big)
-\]
+    loss=MSE(Q(s,a),r+γmaxQtarget(s',a'))
 
 Here, \( Q_{\text{target}} \) denotes the target network, which is periodically updated to improve training stability.
 
