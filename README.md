@@ -106,6 +106,9 @@ Replace `Car_Racing.py` with the actual filename.
 
 ## Visualization
 
+![image](https://github.com/user-attachments/assets/b6c58061-1667-4da9-9726-d3cef19bbbf7)
+
+
 The code generates several plots during training to visualize:
 - **Learning Curve:** Cumulative rewards per episode.
 - **ROC Curve:** Success (finish) rate vs. episodes.
